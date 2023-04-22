@@ -1,0 +1,27 @@
+version: "3.9"
+
+services:
+  api:
+    build:
+      context: ./api
+    ports:
+      - 8000:8000
+    networks:
+        - api-net
+
+  db:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password
+    ports:
+      - 27017:27017
+    networks:
+      - api-net
+    volumes:
+      - ./mongo:/docker-entrypoint-initdb.d
+
+networks:
+  api-net:
+    driver: bridge

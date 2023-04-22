@@ -1,0 +1,3 @@
+*llms/
+*__pycache__/
+*mongo/
