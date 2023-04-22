@@ -61,7 +61,7 @@ def complete(input: CompletionInput):
     
     completion_response = _complete(
         full_prompt
-    )
+    )[0]["generated_text"]
 
     CompletionAnswer(
         input=session_entry,
