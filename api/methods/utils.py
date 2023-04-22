@@ -1,9 +1,10 @@
 import os
 from transformers import pipeline
+from loguru import logger
 
 def get_generator(
     task: str = "text-generation",
-    model: str = "egonrp/gpt2-medium-squadv11-portuguese"
+    model: str = "egonrp/gpt2-medium-wikiwriter-squadv11-portuguese"
 ):
     model_path = "./llms/"
     if not os.path.isdir("./llms"):
@@ -17,6 +18,7 @@ def get_generator(
     return generator
 
 def clean_completion(completion: list):
+    logger.debug(completion)
     for item in completion:
         item["generated_text"] = item["generated_text"].split(
             "<|assistant|>"
