@@ -8,6 +8,8 @@ services:
       - 8000:8000
     networks:
         - api-net
+    environment:
+      - dbname=db
 
   db:
     image: mongo
