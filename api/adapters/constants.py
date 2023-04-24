@@ -1,0 +1,1 @@
+DEFAULT_MODEL = "egonrp/gpt2-medium-wikiwriter-squadv11-portuguese"

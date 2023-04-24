@@ -1,3 +1,4 @@
+import os
 from datetime import datetime
 
 from fastapi import FastAPI, HTTPException
@@ -13,7 +14,7 @@ app = FastAPI()
 async def create_db_client():
     connect(
         "completion-api",
-        host="localhost",
+        host=os.environ.get("dbname") or "localhost",
         port=27017,
         username="root",
         password="password"
@@ -35,7 +36,7 @@ def complete(input: CompletionInput):
     session_entry = SessionEntry(
         session=session,
         type=input.type,
-        text=input.text
+        text=input.prompt
     ).save()
 
     has_base_input = SessionEntry.objects(
@@ -55,12 +56,13 @@ def complete(input: CompletionInput):
     full_prompt = base_input
     if input.use_history:
         for input in session_inputs:
-            full_prompt += "\n%s" % input.text
+            full_prompt += "\n%s" % input.prompt
     else:
-        full_prompt += "\n%s" % input.text
+        full_prompt += "\n%s" % input.prompt
     
     completion_response = _complete(
-        full_prompt
+        full_prompt,
+        model=input.model
     )[0]["generated_text"]
 
     CompletionAnswer(

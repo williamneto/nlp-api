@@ -3,17 +3,26 @@ from transformers import pipeline
 from loguru import logger
 
 def get_generator(
-    task: str = "text-generation",
-    model: str = "egonrp/gpt2-medium-wikiwriter-squadv11-portuguese"
+    model: str,
+    task: str = "text-generation"
 ):
-    model_path = "./llms/"
+    model_dir = "./llms/"
+    model_name = model.split("/")[1]
+
     if not os.path.isdir("./llms"):
-        os.mkdir(model_path)
+        os.mkdir(model_dir)
+    
+    if not os.path.isdir("%s%s" % (model_dir, model_name)):
+        os.mkdir("%s%s" % (model_dir, model_name))
         generator = pipeline(task, model=model)
     else:
-        generator = pipeline(task, model=model_path)
+        try:
+            generator = pipeline(task, model=model_dir)
+        except Exception as e:
+            logger.debug(e)
+            generator = pipeline(task, model=model)
 
-    generator.save_pretrained(model_path)
+    generator.save_pretrained("%s%s" % (model_dir, model_name))
 
     return generator
 
