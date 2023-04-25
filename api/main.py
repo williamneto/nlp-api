@@ -72,6 +72,7 @@ def analyse_sentiment(input: ClassificationInput):
         input.prompt,
         model=input.model
     )
+
 @app.post("/session/complete")
 def complete(input: CompletionInput):
     session = Session.objects(
@@ -116,3 +117,7 @@ def complete(input: CompletionInput):
     ).save()
 
     return completion_response
+
+@app.post("/train")
+def train():
+    pass
