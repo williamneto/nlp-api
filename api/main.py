@@ -5,8 +5,11 @@ from fastapi import FastAPI, HTTPException
 from mongoengine import connect
 
 from schemas.completion import CompletionInput
+from schemas.classification import ClassificationInput
 from models.sessions import Session, SessionEntry, CompletionAnswer
 from methods.completion import _complete
+from methods.classification import _classify
+from adapters.constants import DEFAULT_MODELS
 
 app = FastAPI()
 
@@ -28,6 +31,47 @@ def start_session():
 
     return str(session.id)
 
+@app.post("/session/classify")
+def classify(input: ClassificationInput):
+    session = Session.objects(
+        id=input.session_id
+    ).first()
+
+    SessionEntry(
+        session=session,
+        operation="completion",
+        type=input.type,
+        text=input.prompt
+    ).save()
+
+    if not input.model:
+        input.model = DEFAULT_MODELS["text-classification"]
+
+    return _classify(
+        input.prompt,
+        model=input.model
+    )
+
+@app.post("/session/analyse_sentiment")
+def analyse_sentiment(input: ClassificationInput):
+    session = Session.objects(
+        id=input.session_id
+    ).first()
+
+    SessionEntry(
+        session=session,
+        operation="completion",
+        type=input.type,
+        text=input.prompt
+    ).save()
+
+    if not input.model:
+        input.model = DEFAULT_MODELS["sentiment-analisys"]
+
+    return _classify(
+        input.prompt,
+        model=input.model
+    )
 @app.post("/session/complete")
 def complete(input: CompletionInput):
     session = Session.objects(
@@ -35,6 +79,7 @@ def complete(input: CompletionInput):
     ).first()
     session_entry = SessionEntry(
         session=session,
+        operation="completion",
         type=input.type,
         text=input.prompt
     ).save()

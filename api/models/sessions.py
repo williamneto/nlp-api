@@ -9,6 +9,7 @@ class SessionEntry(Document):
     session = ReferenceField(
         Session
     )
+    operation = StringField()
     type = StringField()
     text = StringField()
     datetime = DateTimeField(

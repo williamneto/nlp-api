@@ -1,7 +1,7 @@
 from transformers import pipeline, set_seed
 from loguru import logger
 
-from adapters.constants import DEFAULT_MODEL
+from adapters.constants import DEFAULT_MODELS
 
 from methods.utils import get_generator, clean_completion
 
@@ -10,7 +10,7 @@ def _complete(
     max_new_tokens: int = 120,
     num_return_sequences: int = 1,
     do_sample: bool = False,
-    model: str = DEFAULT_MODEL
+    model: str = DEFAULT_MODELS["text-generation"]
 ):
     generator = get_generator(model=model)
     logger.debug(model)

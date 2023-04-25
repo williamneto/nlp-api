@@ -8,7 +8,7 @@ def get_generator(
 ):
     model_dir = "./llms/"
     model_name = model.split("/")[1]
-
+    logger.debug(model_name)
     if not os.path.isdir("./llms"):
         os.mkdir(model_dir)
     
@@ -17,7 +17,7 @@ def get_generator(
         generator = pipeline(task, model=model)
     else:
         try:
-            generator = pipeline(task, model=model_dir)
+            generator = pipeline(task, model="%s%s" % (model_dir, model_name))
         except Exception as e:
             logger.debug(e)
             generator = pipeline(task, model=model)

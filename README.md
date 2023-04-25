@@ -41,4 +41,26 @@ Geração de texto (completion). Recebe um objeto com os parâmetros da requisi�
 - use_history - Combinar prompt com histórico de atualizações. Implementação incompleta
 - model - Modelo de processamento a ser utilizado. 
 
+#### POST - /session/classify
+Classificação de texto. Utiliza por padrão o modelo `PrachiPatel/text_emotion_classification`
+```
+{
+  "session_id": "string",
+  "prompt": "string",
+  "type": "in",
+  "model": ""
+}
+```
 
+Label0=sad Label1=joy Label2=love Label3=anger Label4=fear Label5=Surprise label6=neutral
+
+#### POST - /session/analyse_sentiment
+Analise de sentimento. utiliza por padrão o modelo `cardiffnlp/xlm-roberta-base-tweet-sentiment-pt`
+```
+{
+  "session_id": "string",
+  "prompt": "string",
+  "type": "in",
+  "model": ""
+}
+```
