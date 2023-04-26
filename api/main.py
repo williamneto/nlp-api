@@ -1,7 +1,8 @@
 import os
 from datetime import datetime
+from typing import Annotated
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Body
 from mongoengine import connect
 
 from schemas.completion import CompletionInput
@@ -10,6 +11,7 @@ from models.sessions import Session, SessionEntry, CompletionAnswer
 from methods.completion import _complete
 from methods.classification import _classify
 from adapters.constants import DEFAULT_MODELS
+from train import train_clm
 
 app = FastAPI()
 
@@ -119,5 +121,17 @@ def complete(input: CompletionInput):
     return completion_response
 
 @app.post("/train")
-def train():
-    pass
+def train(
+    data_training_args: train_clm.ModelDataTrainingArguments,
+    output_dir: Annotated[str, Body()],
+    do_train: Annotated[bool, Body()],
+    do_eval: Annotated[bool, Body()],
+    overwrite_output_dir: Annotated[bool, Body()]
+):
+    train_clm.train(
+        data_training_args,
+        output_dir,
+        do_train,
+        do_eval,
+        overwrite_output_dir=overwrite_output_dir
+    )

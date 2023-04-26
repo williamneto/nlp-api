@@ -13,7 +13,7 @@ docker-compose build
 docker-compose up
 ```
 
-Por padrão a API estará ouvindo a porta 8000, mas é possível alterar isso nos arquivos `docker-compose.yml`e `api/Dockerfile
+Por padrão a API estará ouvindo a porta 8000, mas é possível alterar isso nos arquivos `docker-compose.yml`e `api/Dockerfile`
 
 ### Endpoints
 
@@ -62,5 +62,20 @@ Analise de sentimento. utiliza por padrão o modelo `cardiffnlp/xlm-roberta-base
   "prompt": "string",
   "type": "in",
   "model": ""
+}
+```
+
+#### POST /train
+```
+{
+  "data_training_args": {
+    "dataset_name": "jvanz/querido_diario",
+    "dataset_config_name": "gpt2-medium-wikiwriter-squadv11-querido-diario-portuguese",
+    "model_name_or_path": "egonrp/gpt2-medium-wikiwriter-squadv11-portuguese"
+  },
+  "output_dir": "./llms/trained/gpt2-medium-wikiwriter-squadv11-querido-diario-portuguese",
+  "overwrite_output_dir": true,
+  "do_train": true,
+  "do_eval": true
 }
 ```

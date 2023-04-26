@@ -45,12 +45,22 @@ class ModelDataTrainingArguments(BaseModel):
     use_fast_tokenizer: bool = True
     model_revision: str = "main"
     use_auth_token: bool = False
+    torch_dtype: Optional[str] = None
     low_cpu_mem_usage: bool = False
 
 def train(
-    args: ModelDataTrainingArguments, 
-    training_args: TrainingArguments
+    args: ModelDataTrainingArguments,
+    output_dir: str,
+    do_train: bool,
+    do_eval: bool,
+    overwrite_output_dir: bool = False
 ):
+    training_args = TrainingArguments(
+        output_dir=output_dir,
+        overwrite_output_dir=overwrite_output_dir,
+        do_train=do_train,
+        do_eval=do_eval
+    )
     logging.basicConfig(
         format="%(asctime)s - %(levelname)s - %(name)s - %(message)s",
         datefmt="%d/%m/%Y %H:%M:%S",
