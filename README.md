@@ -31,15 +31,13 @@ Geração de texto (completion). Recebe um objeto com os parâmetros da requisi�
   "session_id": "string",
   "prompt": "string",
   "type": "in",
-  "use_history": false,
-  "model": "egonrp/gpt2-medium-wikiwriter-squadv11-portuguese"
+  "use_history": false
 }
 ```
 - session_id - Id da seção retornado na requisição de inicialização de seção
 - prompt - Texto inicial para geração de texto
 - type -
 - use_history - Combinar prompt com histórico de atualizações. Implementação incompleta
-- model - Modelo de processamento a ser utilizado. 
 
 #### POST - /session/classify
 Classificação de texto. Utiliza por padrão o modelo `PrachiPatel/text_emotion_classification`
@@ -47,8 +45,7 @@ Classificação de texto. Utiliza por padrão o modelo `PrachiPatel/text_emotion
 {
   "session_id": "string",
   "prompt": "string",
-  "type": "in",
-  "model": ""
+  "type": "in"
 }
 ```
 
@@ -60,8 +57,7 @@ Analise de sentimento. utiliza por padrão o modelo `cardiffnlp/xlm-roberta-base
 {
   "session_id": "string",
   "prompt": "string",
-  "type": "in",
-  "model": ""
+  "type": "in"
 }
 ```
 
